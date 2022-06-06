@@ -25,8 +25,13 @@ const formatTokens = {
 
 paths.forEach(async (/** @type {string} */ path) => {
   const endpointPath = Object.keys(formatTokens).reduce((acc, key) => acc.replace(key, formatTokens[key]), path) || '/';
+  if (endpointPath.endsWith('__middleware')) {
+    const module = await import(path);
+    const mw = module.middleWare; 
+    // get function and add to begining of call stack for all routes starting with prefix (endpointpath.replace('__middleware', ''))
+  }
   const endpoint = await import(path);
-  const methods = Object.keys(await endpoint);
+  const methods = Object.keys(endpoint);
   const methodVerbs = methods.map((item) => (item === 'del' ? 'delete' : item));
   methodVerbs.forEach((method, index) => app[method](endpointPath, endpoint[methods[index]]));
   methodVerbs.forEach((item) => console.log(item.toUpperCase(), endpointPath));

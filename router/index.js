@@ -1,18 +1,24 @@
-/** @type {import('#types/endpoint').RequestHandler} */
-export const get = (req, res) => {
-  console.log('get');
+const mw = (req, res, next) => {
+  console.log('mw!');
+  next();
 };
 
+/** @type {import('$types/endpoint').RequestHandler} */
+export const get = [mw, (req, res) => {
+  res.status(200).send('get');
+}];
+
+/** @type {import('$types/endpoint').RequestHandler} */
 export const post = (req, res) => {
-  console.log('post');
+  res.status(201).send('post');
 };
 
-/** @type {import('#types/endpoint').RequestHandler} */
+/** @type {import('$types/endpoint').RequestHandler} */
 export const put = (req, res) => {
-  console.log('put');
+  res.status(200).send('put');
 };
 
-/** @type {import('#types/endpoint').RequestHandler} */
+/** @type {import('$types/endpoint').RequestHandler} */
 export const del = (req, res) => {
-  console.log('delete');
+  res.status(200).send('delete');
 };

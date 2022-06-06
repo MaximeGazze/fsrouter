@@ -1,6 +1,5 @@
-/** @type {import('#types/endpoint').RequestHandler} */
+/** @type {import('$types/endpoint').RequestHandler} */
 export const get = (req, res) => {
   const { id } = req.params;
-  console.log(id);
-  console.log('get');
+  res.status(200).send(`get id=${id}`);
 };
